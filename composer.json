@@ -1,0 +1,24 @@
+{
+    "name": "sahassar/extras",
+    "description": "Extension to add a few extras to bolt that I like.",
+    "type": "bolt-extension",
+    "keywords": [],
+    "require": {
+        "bolt/bolt": "=2.1.8"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Svante Richter",
+            "email": "svante.richter@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "init.php"
+        ],
+        "psr-4": {
+            "Bolt\\Extension\\sahassar\\extras\\": ""
+        }
+    }
+}
