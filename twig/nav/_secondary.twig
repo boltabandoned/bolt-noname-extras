@@ -1,0 +1,102 @@
+{% import 'nav/_macros.twig' as nav %}
+{% import _self as self %}
+{##
+ # Main-level menuitem without path
+ #}
+{% macro linkExt(icon, label, pathname, active, divider) %}
+    {% from 'nav/_macros.twig' import label, icon %}
+    {% set class = 'main-level-settings' %}
+    {% if pathname == 'dashboard' %}{% set class = 'nav-secondary-dashboard' %}{% endif %}
+    {% if active %}{% set class = class ~ ' active' %}{% endif %}
+    {% if divider %}{% set class = class ~ ' divider' %}{% endif %}
+    <li{% if class %} class="{{ class|trim }}" {% endif %}>
+        <a href="{{ pathname }}">{{ label(icon, label) }}</a>
+    </li>
+{% endmacro %}
+
+<ul class="nav">
+    {% if app.session.get('user') is not null %}
+
+        {# Omnisearch: one here for "extra small", the other in the header-navbar #}
+        {% include 'nav/_secondary-search.twig' %}
+        
+        {# Dashboard #}
+        {{ nav.link('fa:dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
+
+        {# View site #}
+        <li class="visible-xs">
+            <a href="{{ paths.root }}" target="_blank"><i class="icon fa fa-external-link-square"></i> {{ __('View site') }}</a>
+        </li>
+
+        {# Contenttypes #}
+        {{ nav.heading(__('Content'), 'fa:file-text') }}
+        {% include 'nav/_secondary-content.twig' %}
+
+        {# Settings #}
+        {% if isallowed('settings') %}
+            {% set nav_config %}{% include 'nav/_secondary-configuration.twig' %}{% endset %}
+            {% set nav_files %}{% include 'nav/_secondary-filemanagement.twig' %}{% endset %}
+            {% set nav_trans %}{% include 'nav/_secondary-translations.twig' %}{% endset %}
+            {# Link to Extend Bolt #}
+            {% if app.extensions.hasMenuoptions or isallowed('extensions||extensions:config') %}
+                {% set nav_extend %}{% include 'nav/_secondary-extensions.twig' %}{% endset %}
+            {% else %}
+                {% set nav_extend = '' %}
+            {% endif %}
+
+            {% if nav_config|trim or nav_files|trim or nav_trans|trim or nav_extend|trim %}
+                {{ nav.heading(__('Settings'), 'fa:wrench') }}
+
+                {{ nav_config }}
+                {{ nav_files }}
+                {{ nav_trans }}
+                {{ nav_extend }}
+                {% for extension in app.extensions.getMenuoptions %}
+                    {{ self.linkExt(
+                        extension.icon|default('fa:briefcase'), 
+                        extension.label, 
+                        extension.path, 
+                        (extension.path == app.request.pathInfo)
+                    )}}
+                {% endfor %}
+            {% endif %}
+            {% if isallowed('files:theme') %}
+                {% if app.config.get('theme/shortcuts') %}
+                    {{ nav.heading(__('Shortcuts'), 'fa:code', 'shortcut-header') }}
+                    {% for shortcut in app.config.get('theme/shortcuts') %}
+                        {% if shortcut.file %}
+                            {{ self.linkExt(
+                                'fa:'~shortcut.icon|default('fa:file'),
+                                shortcut.name,
+                                app.resources.getUrl('bolt') ~ 'file/edit/theme/' ~ app.config.get('general/theme') ~ shortcut.file,
+                                (app.resources.getUrl('bolt') ~ 'file/edit/theme/' ~ app.config.get('general/theme') ~ shortcut.file == app.request.pathInfo)
+                            )}}
+                        {% elseif shortcut.folder %}
+                            {{ self.linkExt(
+                                'fa:'~shortcut.icon|default('fa:folder-o'),
+                                shortcut.name,
+                                app.resources.getUrl('bolt') ~ 'files/theme/' ~ app.config.get('general/theme') ~ shortcut.folder,
+                                (app.resources.getUrl('bolt') ~ 'files/theme/' ~ app.config.get('general/theme') ~ shortcut.folder == app.request.pathInfo)
+                            )}}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+
+        {{ nav.collapse() }}
+
+    {% else %}
+
+        {# View site #}
+        <li>
+            <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('View site') }}</a>
+        </li>
+
+        {# Login #}
+        <li>
+            <a href="{{ path('login') }}"><i class="fa fa-signin"></i> {{ __('Login') }}</a>
+        </li>
+    {% endif %}
+</ul>
+
