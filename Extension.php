@@ -9,7 +9,7 @@ class Extension extends \Bolt\BaseExtension
     
     public function getName()
     {
-        return 'Bolt extras';
+        return 'SahAssar extras';
     }
     
     function initialize()
