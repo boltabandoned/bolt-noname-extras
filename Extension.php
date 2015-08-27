@@ -15,21 +15,70 @@ class Extension extends \Bolt\BaseExtension
     function initialize()
     {
         if ($this->app['config']->getWhichEnd()=='frontend') {
-            $this->addTwigFunction('filemodified', 'filemodified');
+            $this->addTwigFunction('numToString', 'numToString');
+            $this->addTwigFunction('fileModified', 'fileModified');
             $this->addTwigFunction('d', 'dumper');
-        }else{
-            if(!file_exists($this->app['resources']->getPath('web')."app/config/backend")){
-                mkdir($this->app['resources']->getPath('web')."app/config/backend");
+            if(!isset($this->app['config']->get('general')['favicon']) && !file_exists($this->app['resources']->getPath('web')."favicon.ico") || $this->app['config']->get('general/favicon') === false){
+                $this->addSnippet('endofhead', '<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">');
             }
-            if(!file_exists($this->app['resources']->getPath('web')."app/config/backend/listing")){
-                mkdir($this->app['resources']->getPath('web')."app/config/backend/listing");
+        }elseif ($this->app['config']->getWhichEnd()=='backend'){
+            if(!file_exists($this->app['resources']->getPath('config')."backend")){
+                mkdir($this->app['resources']->getPath('config')."backend");
+            }
+            if(!file_exists($this->app['resources']->getPath('config')."backend/listing")){
+                mkdir($this->app['resources']->getPath('config')."backend/listing");
             }
             $this->app['twig.loader.filesystem']->prependPath($this->app['resources']->getPath('web')."app/config/backend/listing");
             $this->app['twig.loader.filesystem']->prependPath(__DIR__."/twig");
         }
     }
     
-    function filemodified($file = "")
+    function numToString($num = 1){
+        $num = round($num,0);
+        if($num == 0){
+            $num = 1;
+        }
+        switch ($num) {
+            case 1:
+                return "one";
+                break;
+            case 2:
+                return "two";
+                break;
+            case 3:
+                return "three";
+                break;
+            case 4:
+                return "four";
+                break;
+            case 5:
+                return "five";
+                break;
+            case 6:
+                return "six";
+                break;
+            case 7:
+                return "seven";
+                break;
+            case 8:
+                return "eight";
+                break;
+            case 9:
+                return "nine";
+                break;
+            case 10:
+                return "ten";
+                break;
+            case 11:
+                return "eleven";
+                break;
+            default:
+                return "twelve";
+                break;
+        }
+    }
+    
+    function fileModified($file = "")
     {
         return filemtime($file);
     }
