@@ -2,8 +2,8 @@ SahAssar extras
 ====================
 
 **Since these changes override files on the backend it will probably break on
-upgrade or if you have an unusual bolt install. It will be versionlocked to a
-specific bolt version.**
+upgrade or if you have an unusual bolt install. It will be version locked to
+very specififc range of bolt versions.**
 
 This extension adds a couple of modifications to bolt that I have found useful.
 
