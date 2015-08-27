@@ -69,3 +69,5 @@ Example config in a theme's config.yml:
         - file: /js/custom.js
           icon: jsfiddle
           name: custom.js
+
+Extension icon (Wrench) by Maxwell Stern from the Noun Project
