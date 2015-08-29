@@ -23,6 +23,6 @@
     },
     "extra": {
         "bolt-assets": "assets",
-        "bolt-icon": "assets/extras-icon.png"
+        "bolt-icon": "assets/boltabandoned-extras-icon.png"
     }
 }

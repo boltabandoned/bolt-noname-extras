@@ -108,4 +108,5 @@ An example with all branding options is below:
         apple-touch-icon-114x114: /thumbs/114x114b/theme-icon.png
         apple-touch-icon-144x144: /thumbs/144x144b/theme-icon.png
 
-Extension icon (Wrench) by Maxwell Stern from the Noun Project
+
+*The extension icon (lightbulb) is by Michael Jonny Marzi from the Noun Project*
