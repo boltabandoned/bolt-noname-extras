@@ -69,5 +69,43 @@ Example config in a theme's config.yml:
         - file: /js/custom.js
           icon: jsfiddle
           name: custom.js
+          
+It also adds a few more branding options:
+
+    branding:
+        link: [ 'http://bulb.se', "Bulb.se" ]
+        colors:
+            primary: '#607D8B'
+            secondary: '#FFF'
+            text: '#333'
+        disable_randomquote: true
+        hide_about: true
+        logo: /thumbs/180x180r/theme-icon-original.png
+
+ - `link` is used to override the link in the footer.
+ - `colors` are used to override colors on the backend.
+ - `disable_randomquote` disables the randomquote on the login screen.
+ - `hide_about` hides the about link in the footer.
+ - `logo` is used to override the logo on the login screen.
+
+An example with all branding options is below:
+
+    branding:
+        name: BulbCMS
+        path: /bulb
+        link: [ 'http://bulb.se', "Bulb.se" ]
+        colors:
+            primary: '#607D8B'
+            secondary: '#FFF'
+            text: '#333'
+        disable_randomquote: true
+        hide_about: true
+        logo: /thumbs/180x180r/theme-icon-original.png
+        provided_by: [ support@bulb.se, "Bulb Design" ]
+        favicon: /thumbs/32x32b/theme-icon.png
+        apple-touch-icon: /thumbs/180x180b/theme-icon.png
+        apple-touch-icon-72x72: /thumbs/72x72b/theme-icon.png
+        apple-touch-icon-114x114: /thumbs/114x114b/theme-icon.png
+        apple-touch-icon-144x144: /thumbs/144x144b/theme-icon.png
 
 Extension icon (Wrench) by Maxwell Stern from the Noun Project
