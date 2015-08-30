@@ -9,7 +9,7 @@
 
 <table class="table table-striped dashboardlisting">
     {% for content in multiplecontent %}
-        {% set editable = isallowed('edit', content) %}
+        {% set permissions = context.permissions[contenttype] %}
         {% include [content.contenttype.slug ~ '.twig', content.contenttype.backend_listing ~ '.twig', 'custom/listing/' ~ content.contenttype.slug ~ '.twig', '_sub/_listing.twig']
             with {'excerptlength': 280, 'thumbsize': 54, 'compact': true} %}
     {% endfor %}
