@@ -27,6 +27,18 @@ Example usage:
 `numToString`: takes a number and returns the english language word for that 
 number. Used when you want to build grid columns based on an equation.
 
+`remoteCache`: takes a url, fetches it, caches it and outputs it's contents.
+It's main use is for external static resources that have a bad caching rules,
+like google fonts and google analytics. It will fetch these resources with the
+Chrome 34 user agent to ensure that it grabs woff files front google analytics.
+The default cache time is one week, but this can be changed with second parameter.
+Usage:
+```
+<style>
+{{remoteCache('http://fonts.googleapis.com/css?family=Roboto:400,600')}}
+</style>
+```
+
 It also checks if you use a favicon, and if you don't it will output an empty 
 base64 favicon in the header. The check this is based on is either if the 
 favicon setting is not set in the config.yml and you don't have a file called
