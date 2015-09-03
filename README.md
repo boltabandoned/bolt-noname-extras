@@ -17,8 +17,6 @@ configs-nginx/blob/master/h5bp/location/cache-busting.conf) or [h5bp apache
 configs](https://github.com/h5bp/server-configs-apache/blob/master/src/web_
 performance/filename-based_cache_busting.conf) for more info.
 
-
-
 Example usage:
 `<link rel="stylesheet" href="{{ paths.theme }}css/style.combined.{{ filemodified(paths.theme~"/css/style.combined.css") }}.css" />`
  
