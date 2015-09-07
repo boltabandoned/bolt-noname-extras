@@ -6,12 +6,12 @@ use Symfony\Component\VarDumper\VarDumper;
 
 class Extension extends \Bolt\BaseExtension
 {
-    
+
     public function getName()
     {
         return 'boltabandoned extras';
     }
-    
+
     function initialize()
     {
         if ($this->app['config']->getWhichEnd()=='frontend') {
@@ -23,17 +23,17 @@ class Extension extends \Bolt\BaseExtension
                 $this->addSnippet('endofhead', '<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">');
             }
         }elseif ($this->app['config']->getWhichEnd()=='backend'){
-            if(!file_exists($this->app['resources']->getPath('config')."backend")){
-                mkdir($this->app['resources']->getPath('config')."backend");
+            if(!file_exists($this->app['resources']->getPath('config')."/backend")){
+                mkdir($this->app['resources']->getPath('config')."/backend");
             }
-            if(!file_exists($this->app['resources']->getPath('config')."backend/listing")){
-                mkdir($this->app['resources']->getPath('config')."backend/listing");
+            if(!file_exists($this->app['resources']->getPath('config')."/backend/listing")){
+                mkdir($this->app['resources']->getPath('config')."/backend/listing");
             }
             $this->app['twig.loader.filesystem']->prependPath($this->app['resources']->getPath('web')."app/config/backend/listing");
             $this->app['twig.loader.filesystem']->prependPath(__DIR__."/twig");
         }
     }
-    
+
     function numToString($num = 1){
         $num = round($num,0);
         if($num == 0){
@@ -78,17 +78,17 @@ class Extension extends \Bolt\BaseExtension
                 break;
         }
     }
-    
+
     function fileModified($file = "")
     {
         return filemtime($file);
     }
-    
+
     function dumper($variable = "")
     {
         return dump($variable);
     }
-    
+
     function remoteCache($url = "", $time = 604800)
     {
         $cachekey = preg_replace("/[^A-Za-z0-9 ]/", '', $url);
@@ -101,5 +101,5 @@ class Extension extends \Bolt\BaseExtension
         }
         return new \Twig_Markup($resp, 'UTF-8');
     }
-    
+
 }
