@@ -29,7 +29,7 @@ class Extension extends \Bolt\BaseExtension
             if(!file_exists($this->app['resources']->getPath('config')."/backend/listing")){
                 mkdir($this->app['resources']->getPath('config')."/backend/listing");
             }
-            $this->app['twig.loader.filesystem']->prependPath($this->app['resources']->getPath('web')."app/config/backend/listing");
+            $this->app['twig.loader.filesystem']->prependPath($this->app['resources']->getPath('config')."/backend/listing");
             $this->app['twig.loader.filesystem']->prependPath(__DIR__."/twig");
         }
     }
