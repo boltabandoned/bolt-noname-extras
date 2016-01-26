@@ -22,38 +22,12 @@ Example usage:
  
 `d`: To dump variables without turning on debug. Usage: `{{d(records)}}`
 
-`numToString`: takes a number and returns the english language word for that 
-number. Used when you want to build grid columns based on an equation.
-
-`remoteCache`: takes a url, fetches it, caches it and outputs it's contents.
-It's main use is for external static resources that have a bad caching rules,
-like google fonts and google analytics. It will fetch these resources with the
-Chrome 34 user agent to ensure that it grabs woff files front google analytics.
-The default cache time is one week, but this can be changed with second parameter.
-Usage:
-```
-<style>
-{{remoteCache('http://fonts.googleapis.com/css?family=Roboto:400,600')}}
-</style>
-```
-
 It also checks if you use a favicon, and if you don't it will output an empty 
 base64 favicon in the header. The check this is based on is either if the 
 favicon setting is not set in the config.yml and you don't have a file called
 favicon.ico in your webroot or if the favicon setting is set to false.
 
 ### Backend
-
-It moves custom backend listings to app/config/backend/listing, and adds a 
-menuitem under Configuration to access/edit them.
-
-It changes default indentation and tab behaviour in CodeMirror to better allow 
-for those who prefer 4 spaces instead of tabs. Works with both indent and outdent.
-
-It adds a ctrl-s save command to all CodeMirror editors on the backend.
-
-It adds buttons to autoprefix and to beautify css when working on them in the 
-backend.
 
 It moves extension menu items to the main level.
 
@@ -84,16 +58,11 @@ It also adds a few more branding options:
 
     branding:
         link: [ 'http://bulb.se', "Bulb.se" ]
-        colors:
-            primary: '#607D8B'
-            secondary: '#FFF'
-            text: '#333'
         disable_randomquote: true
         hide_about: true
         logo: /thumbs/180x180r/theme-icon-original.png
 
  - `link` is used to override the link in the footer.
- - `colors` are used to override colors on the backend.
  - `disable_randomquote` disables the randomquote on the login screen.
  - `hide_about` hides the about link in the footer.
  - `logo` is used to override the logo on the login screen.
@@ -101,17 +70,13 @@ It also adds a few more branding options:
 An example with all branding options is below:
 
     branding:
-        name: BulbCMS
-        path: /bulb
-        link: [ 'http://bulb.se', "Bulb.se" ]
-        colors:
-            primary: '#607D8B'
-            secondary: '#FFF'
-            text: '#333'
+        name: ExampleCMS
+        path: /example
+        link: [ 'http://example.se', "example.se" ]
         disable_randomquote: true
         hide_about: true
         logo: /thumbs/180x180r/theme-icon-original.png
-        provided_by: [ support@bulb.se, "Bulb Design" ]
+        provided_by: [ support@example.se, "Example Design" ]
         favicon: /thumbs/32x32b/theme-icon.png
         apple-touch-icon: /thumbs/180x180b/theme-icon.png
         apple-touch-icon-72x72: /thumbs/72x72b/theme-icon.png
