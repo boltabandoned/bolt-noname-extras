@@ -64,14 +64,14 @@
                 {% if app.config.get('theme/shortcuts') %}
                     {{ nav.heading(__('Shortcuts'), 'fa:code', 'shortcut-header') }}
                     {% for shortcut in app.config.get('theme/shortcuts') %}
-                        {% if shortcut.file %}
+                        {% if shortcut.file|default(false) %}
                             {{ self.linkExt(
                                 'fa:'~shortcut.icon|default('fa:file'),
                                 shortcut.name,
                                 app.resources.getUrl('bolt') ~ 'file/edit/theme/' ~ app.config.get('general/theme') ~ shortcut.file,
                                 (app.resources.getUrl('bolt') ~ 'file/edit/theme/' ~ app.config.get('general/theme') ~ shortcut.file == app.request.pathInfo)
                             )}}
-                        {% elseif shortcut.folder %}
+                        {% elseif shortcut.folder|default(false) %}
                             {{ self.linkExt(
                                 'fa:'~shortcut.icon|default('fa:folder-o'),
                                 shortcut.name,

@@ -16,7 +16,6 @@
 {% set page_nav = block('page_nav')|default('NO NAV') %}
 
 {% block page_plain %}
-{% include '_base/_page-colors.twig' %}
     <div id="navpage-wrapper"{% if app.request.cookies.get('sidebar') %} class="nav-secondary-collapsed nav-secondary-collapsed-hoverable"{% endif %}>
         <nav id="navpage-primary" class="navbar navbar-static-top navbar-inverse navbar-bolt" role="navigation">
             {% include 'nav/_primary.twig' %}
@@ -57,6 +56,8 @@
 
             {% block page_main %}[PAGE_MAIN]{% endblock page_main %}
         </div>
+        {% block page_main_extra_content %}
+        {% endblock %}
     </div>
 
     <footer id="bolt-footer" class="hidden-xs">
