@@ -23,7 +23,13 @@ class Extension extends \Bolt\BaseExtension
         }
         $this->addTwigFunction('fileModified', 'fileModified');
         $this->addTwigFunction('d', 'dumper');
+        $this->addTwigFunction('shuffle', 'twig_shuffle');
     }
+
+	function twig_shuffle($arr) {
+        shuffle($arr);
+        return $arr;
+	}
 
     function fileModified($file = "")
     {
