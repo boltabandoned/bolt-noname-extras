@@ -1,0 +1,19 @@
+{# Empty array for submenu #}
+{% set sub = [] %}
+{% set extend_menu = app['menu.admin'].get('extend') %}
+
+{% if isallowed('extensions||extensions:config') %}
+
+    {# Add the "view" and "configure" options #}
+    {% set sub = sub|merge([
+        {
+            icon: extend_menu.icon,
+            label: extend_menu.label,
+            link: extend_menu.uri,
+            isallowed: extend_menu.permission
+        }
+    ]) %}
+
+{% endif %}
+
+{{ nav.submenu('fa:cubes', __('general.phrase.extras'), sub, (page_nav == 'Settings/ExtendBolt')) }}

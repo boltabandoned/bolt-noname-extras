@@ -2,8 +2,7 @@ SahAssar extras
 ====================
 
 **Since these changes override files on the backend it will probably break on
-upgrade or if you have an unusual bolt install. It will be version locked to
-very specififc range of bolt versions.**
+upgrade or if you have an unusual bolt install.**
 
 This extension adds a couple of modifications to bolt that I have found useful.
 
@@ -54,34 +53,4 @@ Example config in a theme's config.yml:
           icon: jsfiddle
           name: custom.js
           
-It also adds a few more branding options:
-
-    branding:
-        link: [ 'http://bulb.se', "Bulb.se" ]
-        disable_randomquote: true
-        hide_about: true
-        logo: /thumbs/180x180r/theme-icon-original.png
-
- - `link` is used to override the link in the footer.
- - `disable_randomquote` disables the randomquote on the login screen.
- - `hide_about` hides the about link in the footer.
- - `logo` is used to override the logo on the login screen.
-
-An example with all branding options is below:
-
-    branding:
-        name: ExampleCMS
-        path: /example
-        link: [ 'http://example.se', "example.se" ]
-        disable_randomquote: true
-        hide_about: true
-        logo: /thumbs/180x180r/theme-icon-original.png
-        provided_by: [ support@example.se, "Example Design" ]
-        favicon: /thumbs/32x32b/theme-icon.png
-        apple-touch-icon: /thumbs/180x180b/theme-icon.png
-        apple-touch-icon-72x72: /thumbs/72x72b/theme-icon.png
-        apple-touch-icon-114x114: /thumbs/114x114b/theme-icon.png
-        apple-touch-icon-144x144: /thumbs/144x144b/theme-icon.png
-
-
 *The extension icon (lightbulb) is by Michael Jonny Marzi from the Noun Project*
