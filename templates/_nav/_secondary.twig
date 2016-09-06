@@ -1,10 +1,10 @@
-{% import 'nav/_macros.twig' as nav %}
+{% import '@bolt/_nav/_macros.twig' as nav %}
 {% import _self as self %}
 {##
  # Main-level menuitem without path
  #}
 {% macro linkExt(icon, label, pathname, active, divider) %}
-    {% from 'nav/_macros.twig' import label, icon %}
+    {% from '@bolt/_nav/_macros.twig' import label, icon %}
     {% set class = 'main-level-settings' %}
     {% if pathname == 'dashboard' %}{% set class = 'nav-secondary-dashboard' %}{% endif %}
     {% if active %}{% set class = class ~ ' active' %}{% endif %}
@@ -15,48 +15,51 @@
 {% endmacro %}
 
 <ul class="nav">
-    {% if app.session.get('user') is not null %}
+    {% if app.session.get('authentication') is not null %}
 
         {# Omnisearch: one here for "extra small", the other in the header-navbar #}
-        {% include 'nav/_secondary-search.twig' %}
-        
+        {{ include('@bolt/_nav/_secondary-search.twig') }}
+
         {# Dashboard #}
-        {{ nav.link('fa:dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
+        {{ nav.link('fa:dashboard', __('general.phrase.dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
 
         {# View site #}
         <li class="visible-xs">
-            <a href="{{ paths.root }}" target="_blank"><i class="icon fa fa-external-link-square"></i> {{ __('View site') }}</a>
+            <a href="{{ paths.root }}" target="_blank"><i class="icon fa fa-external-link-square"></i> {{ __('general.phrase.view-site') }}</a>
         </li>
 
         {# Contenttypes #}
         {{ nav.heading(__('Content'), 'fa:file-text') }}
-        {% include 'nav/_secondary-content.twig' %}
+        {{ include('@bolt/_nav/_secondary-content.twig') }}
 
         {# Settings #}
         {% if isallowed('settings') %}
-            {% set nav_config %}{% include 'nav/_secondary-configuration.twig' %}{% endset %}
-            {% set nav_files %}{% include 'nav/_secondary-filemanagement.twig' %}{% endset %}
-            {% set nav_trans %}{% include 'nav/_secondary-translations.twig' %}{% endset %}
+            {% set nav_config %}{{ include('@bolt/_nav/_secondary-configuration.twig') }}{% endset %}
+            {% set nav_files %}{{ include('@bolt/_nav/_secondary-filemanagement.twig') }}{% endset %}
+            {% set nav_trans %}{{ include('@bolt/_nav/_secondary-translations.twig') }}{% endset %}
             {# Link to Extend Bolt #}
-            {% if app.extensions.hasMenuoptions or isallowed('extensions||extensions:config') %}
-                {% set nav_extend %}{% include 'nav/_secondary-extensions.twig' %}{% endset %}
+            {% if app['menu.admin'].get('extend').children or isallowed('extensions||extensions:config') %}
+                {% set nav_extend %}{{ include('@bolt/_nav/_secondary-extensions.twig') }}{% endset %}
             {% else %}
                 {% set nav_extend = '' %}
             {% endif %}
 
             {% if nav_config|trim or nav_files|trim or nav_trans|trim or nav_extend|trim %}
-                {{ nav.heading(__('Settings'), 'fa:wrench') }}
+                {{ nav.heading(__('general.phrase.settings'), 'fa:wrench') }}
 
                 {{ nav_config }}
                 {{ nav_files }}
                 {{ nav_trans }}
                 {{ nav_extend }}
-                {% for extension in app.extensions.getMenuoptions %}
+
+                {# Add the available extensions that have added a menu-item. #}
+                {% set extend_menu = app['menu.admin'].get('extend') %}
+                {% for extension in extend_menu.children %}
                     {{ self.linkExt(
                         extension.icon|default('fa:briefcase'), 
                         extension.label, 
-                        extension.path, 
-                        (extension.path == app.request.pathInfo)
+                        extension.uri, 
+                        (extension.uri == app.request.pathInfo)
                     )}}
                 {% endfor %}
             {% endif %}
@@ -68,15 +71,15 @@
                             {{ self.linkExt(
                                 'fa:'~shortcut.icon|default('fa:file'),
                                 shortcut.name,
-                                app.resources.getUrl('bolt') ~ 'file/edit/theme/' ~ app.config.get('general/theme') ~ shortcut.file,
-                                (app.resources.getUrl('bolt') ~ 'file/edit/theme/' ~ app.config.get('general/theme') ~ shortcut.file == app.request.pathInfo)
+                                app.resources.getUrl('bolt') ~ 'file/edit/theme' ~ shortcut.file,
+                                (app.resources.getUrl('bolt') ~ 'file/edit/theme' ~ shortcut.file == app.request.pathInfo)
                             )}}
                         {% elseif shortcut.folder|default(false) %}
                             {{ self.linkExt(
                                 'fa:'~shortcut.icon|default('fa:folder-o'),
                                 shortcut.name,
-                                app.resources.getUrl('bolt') ~ 'files/theme/' ~ app.config.get('general/theme') ~ shortcut.folder,
-                                (app.resources.getUrl('bolt') ~ 'files/theme/' ~ app.config.get('general/theme') ~ shortcut.folder == app.request.pathInfo)
+                                app.resources.getUrl('bolt') ~ 'files/theme' ~ shortcut.folder,
+                                (app.resources.getUrl('bolt') ~ 'files/theme' ~ shortcut.folder == app.request.pathInfo)
                             )}}
                         {% endif %}
                     {% endfor %}
@@ -84,19 +87,19 @@
             {% endif %}
         {% endif %}
 
+
         {{ nav.collapse() }}
 
     {% else %}
 
         {# View site #}
         <li>
-            <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('View site') }}</a>
+            <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('general.phrase.view-site') }}</a>
         </li>
 
         {# Login #}
         <li>
-            <a href="{{ path('login') }}"><i class="fa fa-signin"></i> {{ __('Login') }}</a>
+            <a href="{{ path('login') }}"><i class="fa fa-signin"></i> {{ __('general.phrase.login') }}</a>
         </li>
     {% endif %}
 </ul>
-

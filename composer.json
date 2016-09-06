@@ -2,10 +2,10 @@
     "name": "boltabandoned/extras",
     "description": "Extension to add a few extras to bolt that I like.",
     "type": "bolt-extension",
-    "keywords": [],
     "require": {
-        "bolt/bolt" : ">=2.2.9,<3.0"
+        "bolt/bolt": "^3.0.0"
     },
+    "keywords": [],
     "license": "MIT",
     "authors": [
         {
@@ -14,15 +14,11 @@
         }
     ],
     "autoload": {
-        "files": [
-            "init.php"
-        ],
         "psr-4": {
-            "Bolt\\Extension\\boltabandoned\\extras\\": ""
+            "boltabandoned\\boltabandonedExtrasExtension\\": "src"
         }
     },
     "extra": {
-        "bolt-assets": "assets",
-        "bolt-icon": "assets/boltabandoned-extras-icon.png"
+        "bolt-class": "boltabandoned\\boltabandonedExtrasExtension\\boltabandonedExtrasExtension"
     }
 }
