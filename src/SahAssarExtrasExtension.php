@@ -61,6 +61,10 @@ class SahAssarExtrasExtension extends SimpleExtension
 
     function dumper($variable = "")
     {
+        $app = $this->getContainer();
+        if ($app['users']->getCurrentUser() === null) {
+            return null;
+        }
         return dump($variable);
     }
 }
