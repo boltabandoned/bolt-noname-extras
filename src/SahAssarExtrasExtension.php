@@ -20,9 +20,18 @@ class boltabandonedExtrasExtension extends SimpleExtension
     protected function registerTwigFunctions()
     {
         return [
-            'fileModified'    => 'fileModified',
-            'shuffle' => 'twigShuffle',
-            'd' => 'dumper'
+            'modified' => 'modified',
+            'shuffle'  => 'twigShuffle',
+            'd'        => 'dumper'
+        ];
+    }
+
+    protected function registerTwigFilters()
+    {
+        return [
+            'modified' => 'modified',
+            'shuffle'  => 'twigShuffle',
+            'd'        => 'dumper'
         ];
     }
 
@@ -43,23 +52,24 @@ class boltabandonedExtrasExtension extends SimpleExtension
     public function faviconSnippet()
     {
         $app = $this->getContainer();
-        if(!isset($app['config']->get('general')['favicon']) || $app['config']->get('general/favicon') === false){
+        if (!isset($app['config']->get('general')['favicon']) || $app['config']->get('general/favicon') === false) {
             return '<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">';
         }
         return '';
     }
 
-	function twigShuffle($arr) {
+    public function twigShuffle($arr)
+    {
         shuffle($arr);
         return $arr;
-	}
+    }
 
-    function fileModified($file = "")
+    public function fileModified($file = "")
     {
         return filemtime($file);
     }
 
-    function dumper($variable = "")
+    public function dumper($variable = "")
     {
         $app = $this->getContainer();
         if ($app['users']->getCurrentUser() === null) {
