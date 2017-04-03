@@ -7,6 +7,7 @@ use Bolt\Extension\SimpleExtension;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Controller\Zone;
 use Bolt\Asset\Target;
+use Bolt\Helpers\Html;
 
 class boltabandonedExtrasExtension extends SimpleExtension
 {
@@ -22,7 +23,8 @@ class boltabandonedExtrasExtension extends SimpleExtension
         return [
             'modified' => 'modified',
             'shuffle'  => 'twigShuffle',
-            'd'        => 'dumper'
+            'd'        => 'dumper',
+            'barelink' => 'bareLink'
         ];
     }
 
@@ -31,7 +33,8 @@ class boltabandonedExtrasExtension extends SimpleExtension
         return [
             'modified' => 'modified',
             'shuffle'  => 'twigShuffle',
-            'd'        => 'dumper'
+            'd'        => 'dumper',
+            'barelink' => 'bareLink'
         ];
     }
 
@@ -48,6 +51,32 @@ class boltabandonedExtrasExtension extends SimpleExtension
             $asset,
         ];
     }
+
+    /**
+     * Create an bare link to a given URL or contenttype/slug pair.
+     *
+     * @param string $location
+     * @param string $label
+     *
+     * @return string
+     */
+    public function bareLink($location)
+    {
+        $app = $this->getContainer();
+        if ((string) $location === '') {
+            return '';
+        }
+        if (Html::isURL($location)) {
+            $location = Html::addScheme($location);
+        } elseif ($record = $app['storage']->getContent($location)) {
+            if (is_array($record)) {
+                return $location;
+            }
+            $location = $record->link();
+        }
+        return $location;
+    }
+
 
     public function faviconSnippet()
     {
