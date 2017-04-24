@@ -8,21 +8,14 @@ This extension adds a couple of modifications to bolt that I have found useful.
 
 ### Frontend
 
-It adds three twig functions to the frontend:
- 
-`filemodified`: Returns the last time a file was modified. Used for filename 
-based cachebusting. See [h5bp nginx configs](https://github.com/h5bp/server-
-configs-nginx/blob/master/h5bp/location/cache-busting.conf) or [h5bp apache 
-configs](https://github.com/h5bp/server-configs-apache/blob/master/src/web_
-performance/filename-based_cache_busting.conf) for more info.
+It adds twig functions/filters to the frontend:
 
-Example usage:
-`<link rel="stylesheet" href="{{ paths.theme }}css/style.combined.{{ filemodified(paths.theme~"/css/style.combined.css") }}.css" />`
- 
+`p`: To add preload headers so that assets can be pushed with HTTP2. Usage: `<link rel="stylesheet" href="{{ asset('css/styles.pkgd.css', 'theme')|p }}">`
+
 `d`: To dump variables without turning on debug. Usage: `{{d(records)}}`
 
-It also checks if you use a favicon, and if you don't it will output an empty 
-base64 favicon in the header. The check this is based on is either if the 
+It also checks if you use a favicon, and if you don't it will output an empty
+base64 favicon in the header. The check this is based on is either if the
 favicon setting is not set in the config.yml and you don't have a file called
 favicon.ico in your webroot or if the favicon setting is set to false.
 
@@ -52,5 +45,5 @@ Example config in a theme's config.yml:
         - file: /js/custom.js
           icon: jsfiddle
           name: custom.js
-          
+
 *The extension icon (lightbulb) is by Michael Jonny Marzi from the Noun Project*
