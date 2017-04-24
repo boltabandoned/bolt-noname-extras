@@ -2,12 +2,16 @@
 
 namespace SahAssar\SahAssarExtrasExtension;
 
-use Symfony\Component\VarDumper\VarDumper;
 use Bolt\Extension\SimpleExtension;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Controller\Zone;
 use Bolt\Asset\Target;
 use Bolt\Helpers\Html;
+use Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\CliDumper;
+use Symfony\Component\VarDumper\Dumper\HtmlDumper;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SahAssarExtrasExtension extends SimpleExtension
 {
@@ -24,6 +28,7 @@ class SahAssarExtrasExtension extends SimpleExtension
             'modified' => 'modified',
             'shuffle'  => 'twigShuffle',
             'd'        => 'dumper',
+            'p'        => 'pushLink',
             'barelink' => 'bareLink'
         ];
     }
@@ -34,6 +39,7 @@ class SahAssarExtrasExtension extends SimpleExtension
             'modified' => 'modified',
             'shuffle'  => 'twigShuffle',
             'd'        => 'dumper',
+            'p'        => 'pushLink',
             'barelink' => 'bareLink'
         ];
     }
@@ -50,6 +56,39 @@ class SahAssarExtrasExtension extends SimpleExtension
         return [
             $asset,
         ];
+    }
+
+    protected function subscribe(EventDispatcherInterface $dispatcher)
+    {
+        $app = $this->getContainer();
+        $app->after(function ($request, $response, $app) {
+            $this->addPushHeader($response);
+        });
+    }
+
+    public function addPushHeader($response)
+    {
+        $response->headers->set('Link', $this->pushAssets);
+    }
+
+    public function pushLink($uri = "")
+    {
+        $as = false;
+        if (strpos($uri, '.css') !== false) {
+            $as = 'style';
+        } elseif (strpos($uri, '.js') !== false) {
+            $as = 'script';
+        } elseif (strpos($uri, '.woff') !== false || strpos($uri, '.woff2') !== false) {
+            $as = 'font';
+        } elseif (strpos($uri, '.jpg') !== false || strpos($uri, '.jpeg') !== false || strpos($uri, '.png') !== false) {
+            $as = 'image';
+        }
+
+        if ($as && $uri) {
+            $this->pushAssets[] = sprintf('<%s>; rel=preload; as=%s', $uri, $as);
+        }
+
+        return $uri;
     }
 
     /**
@@ -104,6 +143,14 @@ class SahAssarExtrasExtension extends SimpleExtension
         if ($app['users']->getCurrentUser() === null) {
             return null;
         }
-        return dump($variable);
+
+        VarDumper::setHandler(function ($var) {
+            $cloner = new VarCloner();
+            $dumper = 'cli' === PHP_SAPI ? new CliDumper() : new HtmlDumper();
+
+            $dumper->dump($cloner->cloneVar($var));
+        });
+
+        return VarDumper::dump($variable);
     }
 }
