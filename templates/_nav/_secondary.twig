@@ -55,12 +55,14 @@
                 {# Add the available extensions that have added a menu-item. #}
                 {% set extend_menu = app['menu.admin'].get('extend') %}
                 {% for extension in extend_menu.children %}
-                    {{ self.linkExt(
-                        extension.icon|default('fa:briefcase'), 
-                        extension.label, 
-                        extension.uri, 
-                        (extension.uri == app.request.pathInfo)
-                    )}}
+                    {% if isallowed(extension.permission) %}
+                        {{ self.linkExt(
+                            extension.icon|default('fa:briefcase'), 
+                            extension.label, 
+                            extension.uri, 
+                            (extension.uri == app.request.pathInfo)
+                        )}}
+                    {% endif %}
                 {% endfor %}
             {% endif %}
             {% if isallowed('files:theme') %}
