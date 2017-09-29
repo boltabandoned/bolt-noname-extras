@@ -3,7 +3,7 @@
     "description": "Extension to add a few extras to bolt that I like.",
     "type": "bolt-extension",
     "require": {
-        "bolt/bolt": "^3.0.0"
+        "bolt/bolt": "^3.3.0"
     },
     "keywords": [],
     "license": "MIT",
