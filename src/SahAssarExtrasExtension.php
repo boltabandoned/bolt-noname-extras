@@ -27,7 +27,7 @@ class boltabandonedExtrasExtension extends SimpleExtension
     protected function registerTwigFunctions()
     {
         return [
-            'modified' => 'modified',
+            'modified' => 'fileModified',
             'shuffle'  => 'twigShuffle',
             'd'        => 'dumper',
             'p'        => 'pushLink',
@@ -38,7 +38,7 @@ class boltabandonedExtrasExtension extends SimpleExtension
     protected function registerTwigFilters()
     {
         return [
-            'modified' => 'modified',
+            'modified' => 'fileModified',
             'shuffle'  => 'twigShuffle',
             'd'        => 'dumper',
             'p'        => 'pushLink',
