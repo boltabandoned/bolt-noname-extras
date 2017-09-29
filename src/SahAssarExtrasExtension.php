@@ -15,6 +15,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class boltabandonedExtrasExtension extends SimpleExtension
 {
+    private $pushAssets = [];
+
     protected function registerTwigPaths()
     {
         return [
