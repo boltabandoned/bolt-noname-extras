@@ -3,7 +3,8 @@
         <i class="fa fa-fw fa-bars"></i> MENU
     </button>
     <a class="navbar-brand" href="{{ path('dashboard') }}">
-        <img src="{{ asset(app.config.get('general/branding/logo_small/path'), app.config.get('general/branding/logo_small/namespace')) }}">
+        <img src="{{ asset(app.config.get('general/branding/logo_small/path', 'img/bolt-icon.svg'), app.config.get('general/branding/logo_small/namespace', 'bolt')) }}">
+        <img src="{{ asset('img/bolt-icon.svg', 'bolt') }}">
     </a>
     <a href="{{ path('dashboard') }}" class="navbar-site hidden-xs"><span>{% if app.config.get('general/sitename') %}{{ app.config.get('general/sitename') }}{% else %}Site{% endif %}</span></a>
 </div>
